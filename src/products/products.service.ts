@@ -1,15 +1,19 @@
-import { Products } from './products.model';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateProductDto } from './dto/create-product.dto';
+import { Product } from './entities/product.entities';
 
 @Injectable()
 export class ProductsService {
-  private products: Products[] = [];
+  private products: Product[] = [];
 
-  insertProduct(title: string, desc: string, price: number) {
+  insertProduct(createProductDto: CreateProductDto): Product {
     const prodId = Math.random().toString();
-    const newProduct = new Products(prodId, title, desc, price);
+    const newProduct = {
+      prodId,
+      ...createProductDto,
+    };
     this.products.push(newProduct);
-    return prodId;
+    return newProduct;
   }
 
   getAllProducts() {
