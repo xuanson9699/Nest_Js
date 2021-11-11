@@ -6,8 +6,10 @@ import {
   Param,
   Delete,
   Patch,
+  HttpCode,
 } from '@nestjs/common';
-import { get } from 'https';
+import { CreateProductDto } from './dto/create-product.dto';
+import { Product } from './entities/user.entity';
 import { ProductsService } from './products.service';
 
 @Controller('products')
@@ -15,26 +17,20 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  addProducts(
-    @Body('title') prodTitle: string,
-    @Body('description') prodDescription: string,
-    @Body('price') prodPrice: number,
-  ) {
-    const genereteId = this.productsService.insertProduct(
-      prodTitle,
-      prodDescription,
-      prodPrice,
-    );
-    return { id: genereteId };
+  addProducts(@Body() body: CreateProductDto): Product {
+    const genereteProduct = this.productsService.insertProduct(body);
+    return genereteProduct;
   }
 
+  // @ApiOkResponse({ type: Product })
   @Get()
-  getAllProducts() {
+  @HttpCode(204)
+  getAllProducts(): Product[] {
     return this.productsService.getAllProducts();
   }
 
   @Get(':id')
-  getProductById(@Param('id') prodId: string) {
+  getProductById(@Param('id') prodId: string): Product {
     return this.productsService.getProductById(prodId);
   }
 

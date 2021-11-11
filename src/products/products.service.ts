@@ -1,22 +1,23 @@
-import { Products } from './products.model';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateProductDto } from './dto/create-product.dto';
+import { Product } from './entities/user.entity';
 
 @Injectable()
 export class ProductsService {
-  private products: Products[] = [];
+  private products: Product[] = [];
 
-  insertProduct(title: string, desc: string, price: number) {
+  insertProduct(createProductDto: CreateProductDto): Product {
     const prodId = Math.random().toString();
-    const newProduct = new Products(prodId, title, desc, price);
+    const newProduct = { id: prodId, ...createProductDto };
     this.products.push(newProduct);
-    return prodId;
+    return newProduct;
   }
 
-  getAllProducts() {
+  getAllProducts(): Product[] {
     return [...this.products];
   }
 
-  getProductById(productId: string) {
+  getProductById(productId: string): Product {
     const product = this.products.find((item) => item?.id === productId);
     if (!product) {
       throw new NotFoundException('Could found find product.');
