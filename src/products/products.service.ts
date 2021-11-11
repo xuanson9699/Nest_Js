@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
-import { Product } from './entities/user.entity';
+import { Product } from './entities/product.entities';
 
 @Injectable()
 export class ProductsService {
@@ -8,7 +8,10 @@ export class ProductsService {
 
   insertProduct(createProductDto: CreateProductDto): Product {
     const prodId = Math.random().toString();
-    const newProduct = { id: prodId, ...createProductDto };
+    const newProduct = {
+      prodId,
+      ...createProductDto,
+    };
     this.products.push(newProduct);
     return newProduct;
   }

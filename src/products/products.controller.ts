@@ -1,30 +1,30 @@
 import {
-  Controller,
-  Post,
   Body,
+  Controller,
+  Delete,
   Get,
   Param,
-  Delete,
   Patch,
-  HttpCode,
+  Post,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateProductDto } from './dto/create-product.dto';
-import { Product } from './entities/user.entity';
+import { Product } from './entities/product.entities';
 import { ProductsService } from './products.service';
 
+@ApiTags('Products')
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
   addProducts(@Body() body: CreateProductDto): Product {
-    const genereteProduct = this.productsService.insertProduct(body);
-    return genereteProduct;
+    const newProduct = this.productsService.insertProduct(body);
+    return newProduct;
   }
 
   // @ApiOkResponse({ type: Product })
   @Get()
-  @HttpCode(204)
   getAllProducts(): Product[] {
     return this.productsService.getAllProducts();
   }
