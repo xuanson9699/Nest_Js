@@ -29,10 +29,8 @@ export class ProductsService {
   }
 
   getProductsByTitle(title: string) {
-    console.log('title', title);
-    console.log(11111, this.products);
     const productFilterByTitle = this.products.filter((item) =>
-      item?.title.includes(title),
+      item?.title.includes(title.toString()),
     );
     return [...productFilterByTitle];
   }

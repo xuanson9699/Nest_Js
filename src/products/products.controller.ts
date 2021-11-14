@@ -37,11 +37,10 @@ export class ProductsController {
   }
 
   @ApiOkResponse({ type: Product, description: 'the product' })
-  @ApiQuery({ name: 'title', required: false })
+  // @ApiQuery({ name: 'title', required: false })
   @Get()
-  getUsersTitle(@Query('title') title?: string) {
-    console.log(1111111111, title);
-    this.productsService.getProductsByTitle(title);
+  getUsersTitle(@Query('title') title?: string): Product[] {
+    return this.productsService.getProductsByTitle(title);
   }
 
   @Delete(':id')
