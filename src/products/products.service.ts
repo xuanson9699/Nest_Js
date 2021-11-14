@@ -7,7 +7,7 @@ export class ProductsService {
   private products: Product[] = [];
 
   insertProduct(createProductDto: CreateProductDto): Product {
-    const prodId = Math.random().toString();
+    const prodId = +Math.random();
     const newProduct = {
       prodId,
       ...createProductDto,
@@ -20,8 +20,8 @@ export class ProductsService {
     return [...this.products];
   }
 
-  getProductById(productId: string): Product {
-    const product = this.products.find((item) => item?.id === productId);
+  getProductById(productId: number): Product {
+    const product = this.products.find((item) => item?.id === +productId);
     if (!product) {
       throw new NotFoundException('Could found find product.');
     }
@@ -36,7 +36,7 @@ export class ProductsService {
   }
 
   deleteProductById(productId: string) {
-    const productFilter = this.products.find((item) => item?.id !== productId);
+    const productFilter = this.products.find((item) => item?.id !== +productId);
     return productFilter;
   }
 
@@ -47,7 +47,7 @@ export class ProductsService {
     price: number,
   ) {
     this.products.forEach((item) => {
-      if (item?.id === id) {
+      if (item?.id === +id) {
         (item.title = title || item.title),
           (item.description = description || item.description),
           (item.price = price || item.price);

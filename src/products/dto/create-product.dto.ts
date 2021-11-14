@@ -1,5 +1,11 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { IsAlphanumeric } from 'class-validator';
+
 export class CreateProductDto {
-  id: string;
+  id: number;
+
+  @ApiProperty()
+  @IsAlphanumeric()
   title: string;
   description: string;
   price: number;
