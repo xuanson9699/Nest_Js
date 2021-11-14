@@ -28,11 +28,18 @@ export class ProductsService {
     return { ...product };
   }
 
-  deleteProductById(productId: string) {
-    const productFilter = this.products.filter(
-      (item) => item?.id !== productId,
+  getProductsByTitle(title: string) {
+    console.log('title', title);
+    console.log(11111, this.products);
+    const productFilterByTitle = this.products.filter((item) =>
+      item?.title.includes(title),
     );
-    return [...productFilter];
+    return [...productFilterByTitle];
+  }
+
+  deleteProductById(productId: string) {
+    const productFilter = this.products.find((item) => item?.id !== productId);
+    return productFilter;
   }
 
   updateProductById(

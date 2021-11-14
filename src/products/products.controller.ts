@@ -6,8 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Product } from './entities/product.entities';
 import { ProductsService } from './products.service';
@@ -24,18 +25,27 @@ export class ProductsController {
   }
 
   // @ApiOkResponse({ type: Product })
-  @Get()
-  getAllProducts(): Product[] {
-    return this.productsService.getAllProducts();
-  }
+  // @Get()
+  // getAllProducts(): Product[] {
+  //   return this.productsService.getAllProducts();
+  // }
 
+  @ApiOkResponse({ type: Product, description: 'the product' })
   @Get(':id')
   getProductById(@Param('id') prodId: string): Product {
     return this.productsService.getProductById(prodId);
   }
 
+  @ApiOkResponse({ type: Product, description: 'the product' })
+  @ApiQuery({ name: 'title', required: false })
+  @Get()
+  getUsersTitle(@Query('title') title?: string) {
+    console.log(1111111111, title);
+    this.productsService.getProductsByTitle(title);
+  }
+
   @Delete(':id')
-  deleteProductById(@Param('id') prodId: string) {
+  deleteProductById(@Param('id') prodId: string): Product {
     this.productsService.deleteProductById(prodId);
     return null;
   }
